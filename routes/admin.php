@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\ShowDashboard;
+use App\Http\Controllers\admin\LoginController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [ShowDashboard::class,'index'])->name('dashboard');
+Route::get('/', [LoginController::class,'index'])->name('login');
+Route::post('/', [LoginController::class,'postLogin'])->name('post.login');
+
+

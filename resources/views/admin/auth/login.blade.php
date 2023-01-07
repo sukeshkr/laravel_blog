@@ -31,16 +31,18 @@
           <section class="login_content">
             <form action="{{route('post.login')}}" method="POST">
                 @csrf
-                <h1><i class="fa fa-camera-retro fa-lg"></i> Login Form</h1>
-
+                <h1><i class="fa fa-camera-retro fa-lg"></i> Bloger Admin</h1>
+                @if (session('sucess'))
+                <div class="text-success text-center">{{session('sucess')}}</div>
+                @endif
                 @if (session('error'))
-                    <div class="text-danger text-center">{{session('error')}}</div>
+                <div class="text-danger text-center">{{session('error')}}</div>
                 @endif
                 @error('email')
-                    {{$message}}
+                <div class="text-danger text-center">{{$message}}</div>
                 @enderror
                 @error('password')
-                    {{$message}}
+                <div class="text-danger text-center">{{$message}}</div>
                 @enderror
               <div>
                 <input type="email" name="email" value="{{old('email')}}" class="form-control @error('email') is-invalid @enderror" placeholder="Email"/>
@@ -61,7 +63,7 @@
 
               <div class="separator">
                 <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
+                  <a href="{{route('register')}}" class="to_register"> Create Account </a>
                 </p>
 
                 <div class="clearfix"></div>

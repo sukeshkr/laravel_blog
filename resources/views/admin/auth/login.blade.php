@@ -56,7 +56,7 @@
                 <label for="remember">
                   Remember Me |
                 </label>
-                <a class="link-info" href="#">Lost your password?</a>
+                <a class="link-info" href="{{route('password.request')}}">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>

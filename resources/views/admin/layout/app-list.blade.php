@@ -78,7 +78,7 @@
                   <li><a><i class="fa fa-desktop"></i> Settings <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="#">User</a></li>
-                      <li><a href="#">Media</a></li>
+                      <li><a href="#l">Media</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -176,7 +176,6 @@
 </div>
 
 <!-- jQuery -->
-<script src="{{asset('assets/vendors/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 <!-- FastClick -->

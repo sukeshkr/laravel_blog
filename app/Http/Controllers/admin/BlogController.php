@@ -3,70 +3,75 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class BlogController extends Controller
 {
     public function index()
     {
-        return view('admin.category.category');
+        $datas = Category::select('id','name')->get();
+        return view('admin.blog.blog',compact('datas'));
     }
-    public function postCategory(Request $request)
+    public function postBlog(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'post_date'=>'required',
+            'title'=>'required',
+            'category'=>'required',
             'file'=>'required',
             'description'=>'required',
         ]);
 
-        $file_name  = $request->file('file')->hashName();
+        $file_name = $request->file('file')->hashName();
+        $request->file->move(public_path('blog'),$file_name);
 
-        $image_path = $request->file->move(public_path('category'),$file_name);
-
-        $data = Category::create([
-            'name'=> $request->name,
-            'file'=> $file_name,
+        $data = Blog::create([
+            'post_date'=>$request->post_date,
+            'title'=>$request->title,
+            'category'=>$request->category,
             'description'=>$request->description,
+            'file'=>$file_name,
         ]);
-
         if($data) {
             return redirect()->back()->with('sucess','Created Sucessfully');
         }
         else {
+
             return redirect()->back()->with('error','Something went wrong');
         }
     }
-    public function categoryList()
+    public function blogList()
     {
-        return view('admin.category.category-list');
+        return view('admin.blog.blog-list');
     }
-    public function categoryFetch(Request $request)
+    public function blogFetch(Request $request)
     {
-        $col_order = ['id','name'];
-        $total_data = Category::count();
+        $col_order = ['id','title'];
+        $total_data = Blog::count();
         $limit = $request->input('length');
         $start = $request->input('start');
         $order = $col_order[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
         if(empty($request->input('search.value'))) {
-            $post = Category::offset($start)->limit($limit)->orderBy($order,$dir)->get();
-            $total_filtered = Category::count();
+            $post = Blog::offset($start)->limit($limit)->orderBy($order,$dir)->get();
+            $total_filtered = Blog::count();
         }
         else {
             $search = $request->input('search.value');
 
-            $post = Category::where('id','like',"%{$search}%")
-                ->orWhere('name','like',"%{$search}%")
+            $post = Blog::where('id','like',"%{$search}%")
+                ->orWhere('title','like',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
 
-            $total_filtered = Category::where('id','like',"%{$search}%")
-                ->orWhere('name','like',"%{$search}%")
+            $total_filtered = Blog::where('id','like',"%{$search}%")
+                ->orWhere('title','like',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -77,10 +82,12 @@ class CategoryController extends Controller
             $slno = 1;
             foreach($post as $row) {
 
-                $dataedit =  route('category.edit',Crypt::encryptString($row->id));
-                $img_path = asset("category/$row->file");
+                $dataedit =  route('blog.edit',Crypt::encryptString($row->id));
+                $img_path = asset("blog/$row->file");
                 $nest['slno'] = $slno++;
-                $nest['name'] = $row->name;
+                $nest['date'] = $row->post_date;
+                $nest['title'] = $row->title;
+                $nest['category'] = $row->category;
                 $nest['description'] = Str::of($row->description)->limit(20,' ...');
                 $nest['image'] = "<img width='100' height='60' src='{$img_path}' alt='blog'>";
                 $nest['actions'] = "<a href='{$dataedit}' class='btn btn-primary btn-sm'><i class='fa fa-edit' aria-hidden='true'></i></a>
@@ -96,15 +103,17 @@ class CategoryController extends Controller
         );
         echo json_encode($json);
     }
-    public function categoryEdit($id)
+    public function blogEdit($id)
     {
-        $data = Category::where('id', Crypt::decryptString($id))->first();
-        return view('admin.category.category-edit',compact('data'));
+        $data = Blog::where('id',Crypt::decryptString($id))->first();
+        $categories = Category::select('id','name')->get();
+        return view('admin.blog.blog-edit',compact('data','categories'));
     }
-    public function categoryUpdate(Request $request)
+    public function blogUpdate(Request $request)
     {
         $data = $request->validate([
-            'name'=> 'required',
+            'title'=> 'required',
+            'category'=> 'required',
             'description'=>'required',
         ]);
 
@@ -113,21 +122,25 @@ class CategoryController extends Controller
         if($request->file('file')) {
 
             $file_name  = $request->file('file')->hashName();
-            $image_path = $request->file->move(public_path('category'),$file_name);
+            $image_path = $request->file->move(public_path('blog'),$file_name);
             $data['file'] = $file_name;
         }
 
-        $res = Category::where('id',$id)->update($data);
+        $res = Blog::where('id',$id)->update($data);
 
         return redirect()->back()->with('sucess','Updated Successsfully');
-    }
-    public function categoryDelete(Request $request)
-    {
-        if ($request->ajax()) {
 
-            $id = $request->rowid;
-            $res = Category::destroy($id);
-            return $res;
+    }
+
+    public function blogDelete()
+    {
+        if(request()->ajax()) {
+
+            $id = request()->rowid;
+           $res = Blog::destroy($id);
+           return $res;
         }
+
+
     }
 }

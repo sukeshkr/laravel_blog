@@ -49,7 +49,12 @@
             <div class="col-md-7">
                 <div class="contact-form bg-light mb-3" style="padding: 30px;">
                     <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    <form name="sentMessage" method="POST" id="contactForm" novalidate="novalidate">
+                        @csrf
+                        <div class="alert alert-danger print-error-msg" style="display:none">
+                            <ul></ul>
+                        </div>
+                        <div id="contact-sucess"></div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="control-group">
@@ -73,7 +78,7 @@
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary font-weight-semi-bold px-4" style="height: 50px;" type="submit" id="sendMessageButton">Send Message</button>
+                            <button class="btn btn-primary font-weight-semi-bold px-4" style="height: 50px;" type="button" id="sendMessageButton">Send Message</button>
                         </div>
                     </form>
                 </div>
@@ -81,74 +86,51 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 <script>
-    $(function () {
+    $.ajaxSetup({
 
-$("#contactForm input, #contactForm textarea").jqBootstrapValidation({
-    preventSubmit: true,
-    submitError: function ($form, event, errors) {
-    },
-    submitSuccess: function ($form, event) {
-        event.preventDefault();
-        var name = $("input#name").val();
-        var email = $("input#email").val();
-        var subject = $("input#subject").val();
-        var message = $("textarea#message").val();
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-        alert(name)
+    $("#sendMessageButton").click(function(e) {
 
-        $this = $("#sendMessageButton");
-        $this.prop("disabled", true);
+        e.preventDefault();
+
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var subject = $("#subject").val();
+        var message = $("#message").val();
 
         $.ajax({
-            url: "contact.php",
-            type: "POST",
-            data: {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            },
-            cache: false,
-            success: function () {
-                $('#success').html("<div class='alert alert-success'>");
-                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-                        .append("</button>");
-                $('#success > .alert-success')
-                        .append("<strong>Your message has been sent. </strong>");
-                $('#success > .alert-success')
-                        .append('</div>');
-                $('#contactForm').trigger("reset");
-            },
-            error: function () {
-                $('#success').html("<div class='alert alert-danger'>");
-                $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-                        .append("</button>");
-                $('#success > .alert-danger').append($("<strong>").text("Sorry " + name + ", it seems that our mail server is not responding. Please try again later!"));
-                $('#success > .alert-danger').append('</div>');
-                $('#contactForm').trigger("reset");
-            },
-            complete: function () {
-                setTimeout(function () {
-                    $this.prop("disabled", false);
-                }, 1000);
+            type:'get',
+            url:"{{ route('contact.mail') }}",
+            data:{name:name,email:email,subject:subject,message:message},
+            success:function(data){
+                if($.isEmptyObject(data.error)){
+
+                    $(".print-error-msg").hide();
+                    $('#contact-sucess').html("<div class='alert alert-success btn-xs'>"+ data.success+"</div>");
+                } else {
+
+                    printErrorMsg(data.error);
+                }
             }
         });
-    },
-    filter: function () {
-        return $(this).is(":visible");
-    },
-});
+    });
 
-$("a[data-toggle=\"tab\"]").click(function (e) {
-    e.preventDefault();
-    $(this).tab("show");
-});
-});
+    function printErrorMsg (msg) {
 
-$('#name').focus(function () {
-$('#success').html('');
-});
+        $(".print-error-msg").find("ul").html('');
+        $(".print-error-msg").css('display','block');
+
+        $.each( msg, function( key, value ) {
+            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+        });
+    }
 
 </script>
 <!-- Contact End -->

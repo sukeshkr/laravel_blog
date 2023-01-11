@@ -9,7 +9,7 @@
             <div class="d-flex">
                 <img src="{{asset('blog/'.$blog->file)}}" style="width: 80px; height: 80px; object-fit: cover;">
                 <div class="d-flex align-items-center bg-light px-3" style="height: 80px;">
-                    <a class="text-secondary font-weight-semi-bold" href="">{{$blog->description}}</a>
+                    <a class="text-secondary font-weight-semi-bold" href="">{{Str::of($blog->description)->limit(50 ,'(...)')}}</a>
                 </div>
             </div>
             @endforeach
@@ -32,7 +32,7 @@
                             <div class="mb-1">
                                 <a class="text-white" href="">Technology</a>
                                 <span class="px-2 text-white">/</span>
-                                <a class="text-white" href="">January 01, 2045</a>
+                                <a class="text-white" href="">{{$blog->postDate}}</a>
                             </div>
                             <a class="h2 m-0 text-white font-weight-bold" href="">{{$blog->title}}</a>
                         </div>
@@ -81,7 +81,7 @@
                     <div class="mb-1" style="font-size: 13px;">
                         <a class="text-white" href="">Technology</a>
                         <span class="px-1 text-white">/</span>
-                        <a class="text-white" href="">January 01, 2045</a>
+                        <a class="text-white" href="">{{$blog->postDate}}</a>
                     </div>
                     <a class="h4 m-0 text-white" href="">{{$blog->title}}</a>
                 </div>
@@ -113,7 +113,7 @@
                             <div class="mb-2" style="font-size: 13px;">
                                 <a href="">{{$blog->title}}</a>
                                 <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
+                                <span>{{$blog->postDate}}</span>
                             </div>
                             <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
                         </div>
@@ -148,10 +148,10 @@
                                 <div class="mb-2" style="font-size: 14px;">
                                     <a href="">Technology</a>
                                     <span class="px-1">/</span>
-                                    <span>{{$blog->post_date}}</span>
+                                    <span>{{$blog->postDate}}</span>
                                 </div>
                                 <a class="h4" href="">{{$blog->title}}</a>
-                                <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
+                                <p class="m-0">{{Str::of($blog->description)->limit(65,'(...)')}}</p>
                             </div>
                         </div>
                     </div>
@@ -176,10 +176,10 @@
                                 <div class="mb-2" style="font-size: 14px;">
                                     <a href="">Technology</a>
                                     <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
+                                    <span>{{$blog->postDate}}</span>
                                 </div>
                                 <a class="h4" href="">{{$blog->title}}</a>
-                                <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
+                                <p class="m-0">{{Str::of($blog->description)->limit(65,'(...)')}}</p>
                             </div>
                         </div>
                     </div>
@@ -195,26 +195,26 @@
                     </div>
                     <div class="d-flex mb-3">
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #39569E;">
-                            <small class="fab fa-facebook-f mr-2"></small><small>12,345 Fans</small>
+                            <small class="fab fa-facebook-f mr-2"></small><small>14345 Fans</small>
                         </a>
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #52AAF4;">
-                            <small class="fab fa-twitter mr-2"></small><small>12,345 Followers</small>
+                            <small class="fab fa-twitter mr-2"></small><small>4345 Followers</small>
                         </a>
                     </div>
                     <div class="d-flex mb-3">
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #0185AE;">
-                            <small class="fab fa-linkedin-in mr-2"></small><small>12,345 Connects</small>
+                            <small class="fab fa-linkedin-in mr-2"></small><small>1545 Connects</small>
                         </a>
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #C8359D;">
-                            <small class="fab fa-instagram mr-2"></small><small>12,345 Followers</small>
+                            <small class="fab fa-instagram mr-2"></small><small>1845 Followers</small>
                         </a>
                     </div>
                     <div class="d-flex mb-3">
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #DC472E;">
-                            <small class="fab fa-youtube mr-2"></small><small>12,345 Subscribers</small>
+                            <small class="fab fa-youtube mr-2"></small><small>1875 Subscribers</small>
                         </a>
                         <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #1AB7EA;">
-                            <small class="fab fa-vimeo-v mr-2"></small><small>12,345 Followers</small>
+                            <small class="fab fa-vimeo-v mr-2"></small><small>1255 Followers</small>
                         </a>
                     </div>
                 </div>
@@ -226,14 +226,13 @@
                         <h3 class="m-0">Newsletter</h3>
                     </div>
                     <div class="bg-light text-center p-4 mb-3">
-                        <p>Aliqu justo et labore at eirmod justo sea erat diam dolor diam vero kasd</p>
+                        <p>Send mail To Us for the latest news, updates relating to your products and services</p>
                         <div class="input-group" style="width: 100%;">
                             <input type="text" class="form-control form-control-lg" placeholder="Your Email">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">Sign Up</button>
                             </div>
                         </div>
-                        <small>Sit eirmod nonumy kasd eirmod</small>
                     </div>
                 </div>
                 <!-- Newsletter End -->
@@ -249,61 +248,23 @@
                     <div class="bg-light py-2 px-4 mb-3">
                         <h3 class="m-0">Tranding</h3>
                     </div>
+                    @php
+                        $random = $blogs->random(fn ($blogs) => min(4, count($blogs)));
+                    @endphp
+                    @foreach ($random->all() as $blog)
                     <div class="d-flex mb-3">
-                        <img src="img/news-100x100-1.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                        <img src="{{asset('blog/'.$blog->file)}}" style="width: 100px; height: 100px; object-fit: cover;">
                         <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                             <div class="mb-1" style="font-size: 13px;">
-                                <a href="">Technology</a>
+                                <a href="">{{$blog->categorys->name}}</a>
                                 <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
+                                <span>{{$blog->postDate}}</span>
                             </div>
-                            <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
+                            <a class="h6 m-0" href="">{{$blog->title}}</a>
                         </div>
                     </div>
-                    <div class="d-flex mb-3">
-                        <img src="img/news-100x100-2.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                            <div class="mb-1" style="font-size: 13px;">
-                                <a href="">Technology</a>
-                                <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
-                            </div>
-                            <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img src="img/news-100x100-3.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                            <div class="mb-1" style="font-size: 13px;">
-                                <a href="">Technology</a>
-                                <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
-                            </div>
-                            <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img src="img/news-100x100-4.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                            <div class="mb-1" style="font-size: 13px;">
-                                <a href="">Technology</a>
-                                <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
-                            </div>
-                            <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img src="img/news-100x100-5.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                            <div class="mb-1" style="font-size: 13px;">
-                                <a href="">Technology</a>
-                                <span class="px-1">/</span>
-                                <span>January 01, 2045</span>
-                            </div>
-                            <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
                 <!-- Popular News End -->
             </div>

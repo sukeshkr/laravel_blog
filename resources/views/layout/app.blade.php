@@ -28,24 +28,10 @@
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid">
-        <div class="row align-items-center bg-light px-lg-5">
-            <div class="col-12 col-md-8">
-                <div class="d-flex justify-content-between">
-                    <div class="bg-primary text-white text-center py-2" style="width: 100px;">Tranding</div>
-                    <div class="owl-carousel owl-carousel-1 tranding-carousel position-relative d-inline-flex align-items-center ml-3" style="width: calc(100% - 100px); padding-left: 90px;">
-                        <div class="text-truncate"><a class="text-secondary" href="">Labore sit justo amet eos sed, et sanctus dolor diam eos</a></div>
-                        <div class="text-truncate"><a class="text-secondary" href="">Gubergren elitr amet eirmod et lorem diam elitr, ut est erat Gubergren elitr amet eirmod et lorem diam elitr, ut est erat</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 text-right d-none d-md-block">
-                Monday, January 01, 2045
-            </div>
-        </div>
         <div class="row align-items-center py-2 px-lg-5">
             <div class="col-lg-4">
                 <a href="" class="navbar-brand d-none d-lg-block">
-                    <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
+                    <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">Bloggy</span> Blog</h1>
                 </a>
             </div>
             <div class="col-lg-8 text-center text-lg-right">
@@ -60,16 +46,16 @@
     <div class="container-fluid p-0 mb-3">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
             <a href="" class="navbar-brand d-block d-lg-none">
-                <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
+                <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">Bloggy</span> Blog</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    <a href="{{route('home')}}" class="nav-item nav-link active">Home</a>
-                    <a href="{{route('home.category')}}" class="nav-item nav-link">Categories</a>
-                    <a href="{{route('contact')}}" class="nav-item nav-link">Contact</a>
+                    <a href="{{route('home')}}" class="nav-item nav-link {{Request::is('/') ? 'active' : ''}}">Home</a>
+                    <a href="{{route('home.category')}}" class="nav-item nav-link {{Request::is('categories') ? 'active' : ''}}">Categories</a>
+                    <a href="{{route('contact')}}" class="nav-item nav-link {{Request::is('contact') ? 'active' : ''}}">Contact</a>
                 </div>
                 <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
                     <input type="text" class="form-control" placeholder="Keyword">
@@ -88,7 +74,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="{{route('home')}}" class="navbar-brand">
-                    <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
+                    <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">Bloggy</span> Blog</h1>
                 </a>
                 <p>Our Latest Blogs and News are now Available in </p>
                 <div class="d-flex justify-content-start mt-4">
@@ -121,11 +107,9 @@
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-bold mb-4">Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Advertise</a>
+                    <a class="text-secondary mb-2" href="https://github.com/sukeshkr"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
                     <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Privacy & policy</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Terms & conditions</a>
-                    <a class="text-secondary" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Contact</a>
+                    <a class="text-secondary" href="{{route('contact')}}"><i class="fa fa-angle-right text-dark mr-2"></i>Contact</a>
                 </div>
             </div>
         </div>
@@ -134,7 +118,6 @@
         <p class="m-0 text-center">
             &copy; <a class="font-weight-bold" href="#">Sukesh kr</a>. All Rights Reserved.
 
-			<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
 			Designed by <a class="font-weight-bold" href="https://github.com/sukeshkr">Sukesh</a>
         </p>
     </div>
@@ -150,10 +133,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('web-assets/lib/easing/easing.min.js')}}"></script>
     <script src="{{asset('web-assets/lib/owlcarousel/owl.carousel.min.js')}}"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="{{asset('web-assets/mail/jqBootstrapValidation.min.js')}}"></script>
-
     <!-- Template Javascript -->
     <script src="{{asset('web-assets/js/main.js')}}"></script>
 </body>

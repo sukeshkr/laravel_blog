@@ -18,16 +18,22 @@ class BannerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'file'=>'required',
+            'image'=>'required',
+            'image_name'=>'required',
         ]);
 
-        $file_name  = $request->file('file')->hashName();
-
-        $image_path = $request->file->move(public_path('banner'),$file_name);
+        $folderPath = public_path('banner/');
+        $image_parts = explode(";base64,", $request->image_name);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $imageName = uniqid() . '.jpg';
+        $imageFullPath = $folderPath.$imageName;
+        file_put_contents($imageFullPath, $image_base64);
 
         $data = Banner::create([
             'name'=> $request->name,
-            'file_name'=> $file_name,
+            'file_name'=> $imageName,
         ]);
 
         if($data) {

@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', [LoginController::class,'index'])->name('login');
 Route::post('/', [LoginController::class,'postLogin'])->name('post.login');
 
@@ -77,3 +76,4 @@ Route::group(['middleware'=>['auth','verified']] ,function() {
     Route::get('logout', [AuthController::class,'logout'])->name('user.logout');
 
 });
+

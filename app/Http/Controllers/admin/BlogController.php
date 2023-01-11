@@ -87,7 +87,7 @@ class BlogController extends Controller
                 $nest['slno'] = $slno++;
                 $nest['date'] = $row->post_date;
                 $nest['title'] = $row->title;
-                $nest['category'] = $row->category;
+                $nest['category'] = $row->categorys->name;
                 $nest['description'] = Str::of($row->description)->limit(20,' ...');
                 $nest['image'] = "<img width='100' height='60' src='{$img_path}' alt='blog'>";
                 $nest['actions'] = "<a href='{$dataedit}' class='btn btn-primary btn-sm'><i class='fa fa-edit' aria-hidden='true'></i></a>
